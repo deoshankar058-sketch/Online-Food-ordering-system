@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Your Bill 🍽️</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div style="
+        background: rgba(255,255,255,0.88);
+        padding: 25px 35px;
+        border-radius: 18px;
+        width: 90%;
+        max-width: 850px;
+        box-shadow: 0 8px 28px rgba(0,0,0,0.3);
+        backdrop-filter: blur(5px);
+    ">
+
+        <h1 style="
+            color: #4B0082;
+            text-align: center;
+            font-size: 2.8em;
+            text-shadow: 0px 3px 6px rgba(0,0,0,.3);
+            margin-bottom: 5px;
+        ">
+            🧾 Order Bill
+        </h1>
+
+        <h3 style="text-align:center; color:#4CAF50; font-size:1.4em;">
+            Bill No: {{ billNo }}
+        </h3>
+
+        <p style="text-align:center; font-size:1.1em; margin-bottom:15px; color:#222;">
+            Thank you for ordering with us 😋 Your delicious food will be served soon!
+        </p>
+
+        <table>
+            <tr>
+                <th>Food Item</th>
+                <th>Price (₹)</th>
+                <th>Qty</th>
+                <th>Subtotal (₹)</th>
+            </tr>
+
+            {% for item in cart %}
+            <tr>
+                <td style="font-weight:600;">
+                    {% if item.item == 'Burger' %}🍔{% endif %}
+                    {% if item.item == 'Pizza' %}🍕{% endif %}
+                    {% if item.item == 'Sandwich' %}🥪{% endif %}
+                    {% if item.item == 'Pasta' %}🍝{% endif %}
+                    {% if item.item == 'French Fries' %}🍟{% endif %}
+                    {{ item.item }}
+                </td>
+
+                <td>₹{{ item.price }}</td>
+                <td>{{ item.quantity }}</td>
+                <td><strong>₹{{ item.price * item.quantity }}</strong></td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="total">
+            Grand Total: ₹{{ total }}
+        </div>
+
+        <div class="thankyou">
+            🎉 We appreciate your order!  
+            🚚 Delivery on the way!
+        </div>
+
+        <a class="back-btn" href="/">
+            ⏪ Order More Food
+        </a>
+    </div>
+
+    <footer>
+        © 2025 Online Food Ordering System | Designed with ❤️ for Mini Project
+    </footer>
+
+</body>
+</html>

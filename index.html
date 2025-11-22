@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>🍔 Online Food Ordering System 🍕</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div style="
+        background: rgba(255,255,255,0.85);
+        padding: 20px 30px;
+        border-radius: 15px;
+        width: 90%;
+        max-width: 850px;
+        box-shadow: 0 5px 25px rgba(0,0,0,0.2);
+        backdrop-filter: blur(3px);
+    ">
+        
+        <h1 style="
+            color: #4B0082;
+            font-size: 2.8em;
+            text-align: center;
+            margin-bottom: 15px;
+            text-shadow: 0px 2px 6px rgba(0,0,0,.3);
+        ">
+            🍽️ Welcome to Deo's Food Court 😋
+        </h1>
+
+        <p style="text-align:center; color:#333; font-size:1.1em; margin-bottom:20px;">
+            Select your favorite food items from the menu below 👇
+        </p>
+
+        <form method="POST">
+
+            <table>
+                <tr>
+                    <th>Food Item</th>
+                    <th>Price (₹)</th>
+                    <th>Quantity</th>
+                </tr>
+
+                {% for key, item in menu.items() %}
+                <tr>
+                    <td style="font-weight:600;">
+                        {% if item.name == 'Burger' %}🍔{% endif %}
+                        {% if item.name == 'Pizza' %}🍕{% endif %}
+                        {% if item.name == 'Sandwich' %}🥪{% endif %}
+                        {% if item.name == 'Pasta' %}🍝{% endif %}
+                        {% if item.name == 'French Fries' %}🍟{% endif %}
+                        {{ item.name }}
+                    </td>
+
+                    <td style="font-weight:500;">₹{{ item.price }}</td>
+                    <td><input type="number" name="item_{{ key }}" min="0" value="0"></td>
+                </tr>
+                {% endfor %}
+            </table>
+
+            <center>
+                <input type="submit" value="Place Order" class="btn">
+            </center>
+
+        </form>
+    </div>
+
+    <footer>
+        © 2025 Online Food Ordering System | Final Year Mini Project 💡
+    </footer>
+
+</body>
+</html>
