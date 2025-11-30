@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>📊 AI Insights Dashboard</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        .insight-box {
+            background: rgba(255,255,255,0.18);
+            padding: 15px;
+            border-radius: 15px;
+            margin: 15px 0;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.20);
+            color: #fff;
+            text-align: center;
+            font-size: 1.1em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="bill-card" style="max-width:900px;">
+
+        <h1 class="title">📊 AI Insights Dashboard</h1>
+        <p class="subtitle">AI-powered analytics to understand order trends & customer behaviour</p>
+
+        <!-- AI Insight Cards -->
+        <div class="insight-box">
+            🔥 <strong>Most Popular Food (AI):</strong> <span id="popularItem">Loading...</span>
+        </div>
+
+        <div class="insight-box">
+            ⭐ <strong>AI Estimated Average Spending:</strong> <span id="avgSpend">Loading...</span>
+        </div>
+
+        <div class="insight-box">
+            📈 <strong>Total Orders Recorded:</strong> <span id="totalOrders">Loading...</span>
+        </div>
+
+
+        <!-- Chart 1: Top Items -->
+        <h3 style="text-align:center; color:white; margin-top:20px;">🍔 Most Ordered Items</h3>
+        <canvas id="topItemsChart" height="120"></canvas>
+
+        <br><br>
+
+        <!-- Chart 2: Orders Per Day -->
+        <h3 style="text-align:center; color:white; margin-top:20px;">📅 Orders Per Day</h3>
+        <canvas id="ordersPerDayChart" height="120"></canvas>
+
+        <br><br>
+
+        <center>
+            <a href="/" class="back-btn">⬅ Back to Ordering</a>
+        </center>
+
+    </div>
+
+    <script>
+        async function loadInsights() {
+            // Fetch data from backend
+            const res = await fetch("/api/stats");
+            const data = await res.json();
+
+            console.log(data);
+
+            // Populate insights
+            if (data.top_items.length > 0) {
+                document.getElementById("popularItem").innerText =
+                    data.top_items[0].name + " (" + data.top_items[0].count + " orders)";
+            } else {
+                document.getElementById("popularItem").innerText = "Not enough data yet";
+            }
+
+            document.getElementById("avgSpend").innerText = "₹" + data.aov;
+            document.getElementById("totalOrders").innerText = data.orders_count;
+
+            // Chart 1: Top Items
+            const ctx1 = document.getElementById("topItemsChart").getContext("2d");
+            new Chart(ctx1, {
+                type: "bar",
+                data: {
+                    labels: data.top_items.map(x => x.name),
+                    datasets: [{
+                        label: "Quantity Ordered",
+                        data: data.top_items.map(x => x.count),
+                        backgroundColor: "#ff9800aa",
+                        borderRadius: 10
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+            // Chart 2: Orders Per Day
+            const ctx2 = document.getElementById("ordersPerDayChart").getContext("2d");
+            new Chart(ctx2, {
+                type: "line",
+                data: {
+                    labels: data.orders_per_day.map(x => x.date),
+                    datasets: [{
+                        label: "Orders",
+                        data: data.orders_per_day.map(x => x.count),
+                        fill: true,
+                        backgroundColor: "rgba(255,255,255,0.4)",
+                        borderColor: "#ffffff",
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: { legend: { display: false } }
+                }
+            });
+
+        }
+
+        loadInsights();
+    </script>
+
+</body>
+</html>
