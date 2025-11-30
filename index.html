@@ -7,30 +7,40 @@
 </head>
 
 <body>
+    <div style="text-align:center; margin-bottom:20px; color:#fff; font-size:1.2em;">
+    🔮 <strong>AI Recommended For You:</strong>
+    <span style="background:#ffffff33; padding:6px 10px; border-radius:10px; margin:4px;">🍕 Pizza</span>
+    <span style="background:#ffffff33; padding:6px 10px; border-radius:10px; margin:4px;">🍔 Burger</span>
+    <span style="background:#ffffff32; padding:6px 10px; border-radius:10px; margin:4px;">🥪 Sandwich</span>
+    </div>
 
-    <div style="
-        background: rgba(255,255,255,0.85);
-        padding: 20px 30px;
-        border-radius: 15px;
-        width: 90%;
-        max-width: 850px;
-        box-shadow: 0 5px 25px rgba(0,0,0,0.2);
-        backdrop-filter: blur(3px);
-    ">
-        
+
+    <div class="menu-card">
+
         <h1 style="
-            color: #4B0082;
-            font-size: 2.8em;
+            font-size: 3.2rem;
             text-align: center;
-            margin-bottom: 15px;
-            text-shadow: 0px 2px 6px rgba(0,0,0,.3);
+            font-weight: 700;
+            color: #ffffff;
+            text-shadow: 0px 4px 12px rgba(0,0,0,0.35);
+            margin-bottom: 8px;
+            font-family: 'Poppins', sans-serif;
         ">
-            🍽️ Welcome to Deo's Food Court 😋
+            🍽️ AI-Enhanced Food Ordering System 😋
         </h1>
 
-        <p style="text-align:center; color:#333; font-size:1.1em; margin-bottom:20px;">
-            Select your favorite food items from the menu below 👇
-        </p>
+        <!-- SUBTITLE (Soft Lavender) -->
+        <h2 style="
+            font-size: 1.6rem;
+            text-align: center;
+            font-weight: 500;
+            color: #eedbffeb;
+            text-shadow: 0px 2px 6px rgba(0,0,0,0.25);
+            margin-bottom: 25px;
+            font-family: 'Poppins', sans-serif;
+        ">
+            Choose your favorite food & enjoy the taste 😍👇
+        </h2>
 
         <form method="POST">
 
@@ -52,22 +62,52 @@
                         {{ item.name }}
                     </td>
 
-                    <td style="font-weight:500;">₹{{ item.price }}</td>
+                    <td>₹{{ item.price }}</td>
                     <td><input type="number" name="item_{{ key }}" min="0" value="0"></td>
                 </tr>
                 {% endfor %}
             </table>
 
             <center>
-                <input type="submit" value="Place Order" class="btn">
+                <input type="submit" value="Order Now 😋" class="btn">
             </center>
 
         </form>
     </div>
 
+    <div style="text-align:center; margin-top:30px;">
+    <h3 style="color:white;">🤖 AI Price Prediction</h3>
+    <p style="color:#fff; font-size:0.9em;">Enter quantities & let AI estimate your total</p>
+
+    <form id="predictForm" style="margin-top:10px;">
+        <input type="number" placeholder="Burger" id="p1" min="0" style="width:70px; padding:6px; border-radius:10px;">
+        <input type="number" placeholder="Pizza" id="p2" min="0" style="width:70px; padding:6px; border-radius:10px;">
+        <input type="number" placeholder="Sandwich" id="p3" min="0" style="width:70px; padding:6px; border-radius:10px;">
+        <br><br>
+        <button type="button" class="btn" onclick="predict()">Predict</button>
+    </form>
+
+    <div id="predictionResult" style="color:white; margin-top:10px; font-size:1.1em;"></div>
+</div>
+
+<script>
+function predict() {
+    let b = Number(document.getElementById("p1").value || 0);
+    let p = Number(document.getElementById("p2").value || 0);
+    let s = Number(document.getElementById("p3").value || 0);
+    // Simple calculation pretending to be AI
+    let result = (b * 100) + (p * 250) + (s * 120);
+
+    document.getElementById("predictionResult").innerHTML =
+        "🔮 Estimated Price: <b>₹" + result + "</b>";
+}
+</script>
+
+
     <footer>
-        © 2025 Online Food Ordering System | Final Year Mini Project 💡
+        © 2025 Deo's Online Food Ordering System | Made with ❤️ for Mini Project
     </footer>
 
 </body>
 </html>
+
